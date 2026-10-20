@@ -1,0 +1,2 @@
+import {Signal,Wifi} from 'lucide-react'
+export function StatusBar({time,dark=false}:{time:Date;dark?:boolean}){return <div className={'system-status '+(dark?'text-white':'text-black')}><span>{time.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</span><span className="flex items-center gap-[5px]"><Signal size={15} strokeWidth={2.6}/><Wifi size={15} strokeWidth={2.6}/><span className="system-battery"><span/></span></span></div>}

@@ -1,0 +1,7 @@
+"use client"
+import {useRef,useState} from 'react'
+import {motion} from 'framer-motion'
+import {StatusBar} from './status-bar'
+import {useAppState} from '@/lib/app-state'
+import {Camera,Flashlight,LockKeyhole} from 'lucide-react'
+export function LockScreen({time}:{time:Date}){const {unlockDevice,openApp}=useAppState();const [flash,setFlash]=useState(false);const start=useRef<number|null>(null);return <motion.div className={'lock-screen '+(flash?'flash-preview':'')} onTouchStart={e=>{start.current=e.touches[0].clientY}} onTouchEnd={e=>{if(start.current!==null&&start.current-e.changedTouches[0].clientY>45)unlockDevice();start.current=null}} onPanEnd={(_,i)=>{if(i.offset.y < -45)unlockDevice()}}><StatusBar time={time} dark/><div className="lock-clock"><LockKeyhole size={18}/><p>{time.toLocaleDateString('zh-CN',{month:'long',day:'numeric',weekday:'long'})}</p><strong>{time.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</strong></div><div className="lock-bottom"><button aria-label="手电筒预览" aria-pressed={flash} onClick={()=>setFlash(!flash)} className={flash?'selected':''}><Flashlight size={21}/></button><button className="unlock-label" onClick={unlockDevice}>轻点或上滑解锁</button><button aria-label="打开相机" onClick={()=>{unlockDevice();openApp('camera')}}><Camera size={21}/></button></div><button aria-label="解锁手机" onClick={unlockDevice} className="home-gesture"><span/></button></motion.div>}

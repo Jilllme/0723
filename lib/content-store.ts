@@ -1,0 +1,13 @@
+"use client"
+import {create} from 'zustand'
+import {defaultContent,validateContent,type PhoneContent} from './content-model'
+import {cloudConfigured} from './collab-api'
+const DATABASE='jeremy-phone-content',STORE='content',KEY='v1'
+function database():Promise<IDBDatabase>{return new Promise((resolve,reject)=>{if(typeof indexedDB==='undefined'){reject(new Error('当前浏览器不支持本地保存，请换用 Safari 或 Chrome。'));return}const r=indexedDB.open(DATABASE,1);r.onupgradeneeded=()=>r.result.createObjectStore(STORE);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(new Error('无法打开本地存储，请检查浏览器设置。'));r.onblocked=()=>reject(new Error('请关闭其他正在编辑本手机的页面后重试。'))})}
+async function readData():Promise<unknown>{const db=await database();return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readonly'),request=tx.objectStore(STORE).get(KEY);let result:unknown;request.onsuccess=()=>{result=request.result};tx.oncomplete=()=>{db.close();resolve(result)};tx.onerror=tx.onabort=()=>{db.close();reject(new Error('读取本地内容失败。'))}})}
+async function writeData(data:PhoneContent){const db=await database();return new Promise<void>((resolve,reject)=>{try{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(data,KEY);tx.oncomplete=()=>{db.close();resolve()};tx.onerror=tx.onabort=()=>{db.close();reject(new Error('保存失败，可能是浏览器空间不足。请先导出备份，再减少照片后重试。'))}}catch{db.close();reject(new Error('保存失败，可能是浏览器空间不足。请先导出备份，再减少照片后重试。'))}})}
+type ContentStore={data:PhoneContent;ready:boolean;loadingError:string;hydrate:()=>Promise<void>;save:(data:PhoneContent,expectedRevision?:number)=>Promise<void>;applyRemote:(data:PhoneContent)=>void}
+let hydration:Promise<void>|null=null
+export const useContentStore=create<ContentStore>((set,get)=>({data:defaultContent(),ready:false,loadingError:'',hydrate:()=>{if(hydration)return hydration;hydration=(async()=>{try{const data=await readData();if(data)set({data:validateContent(data)});set({ready:true})}catch(e){set({ready:true,loadingError:e instanceof Error?e.message:'本地内容未能加载，请勿覆盖保存，先检查备份。'})}})();return hydration},save:async(input,expectedRevision)=>{let data=validateContent(input);if(cloudConfigured){const {useCollabStore}=await import('./collab-store');data=await useCollabStore.getState().publish(data,expectedRevision)}await writeData(data);set({data,loadingError:''})},applyRemote:(data)=>{const clean=validateContent(data);set({data:clean,loadingError:''});void writeData(clean).catch(()=>{})}}))
+
+export function useContentView(){const data=useContentStore(s=>s.data);return {...data,captions:data.photos.map(p=>p.caption),friends:data.contacts.map(c=>({...c,text:c.messages.at(-1)?.text||'暂无聊天记录',lines:c.messages.map(m=>[m.from==='self'?'我':c.name,m.text])}))}}
