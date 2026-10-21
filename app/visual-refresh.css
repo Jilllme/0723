@@ -1,0 +1,49 @@
+/* JEREMY PHONE — refined iPhone visual system. Loaded after legacy rules. */
+:root{--phone-ink:#16171a;--phone-muted:#75767b;--phone-line:#ececf0;--phone-radius:44px}
+.phone-stage{
+  background:radial-gradient(ellipse at 75% 12%,#fffefa 0%,transparent 42%),
+  linear-gradient(150deg,#f1f0ed 0%,#e4e5e6 64%,#d8dbdf 100%);
+}
+.phone-device{filter:drop-shadow(0 20px 32px #17191d25)}
+.phone-bezel{border:1px solid #8c8e91;background:linear-gradient(110deg,#9e9fa4,#5b5e64 14%,#e0e1e2 35%,#73767a 67%,#bfc0c1);box-shadow:0 22px 70px #25262930,inset 0 0 0 1px #ffffff9e}
+.phone-screen{border:2px solid #0a0a0c;border-radius:43px}
+.phone-wallpaper{background:radial-gradient(ellipse at 27% 9%,#d5d8da 0%,transparent 45%),radial-gradient(ellipse at 85% 90%,#9c9090 0%,transparent 46%),linear-gradient(155deg,#f5f1e9 0%,#c6b8a9 45%,#787b82 100%)}
+.dynamic-pill{top:10px;width:108px;height:31px;background:#050506;box-shadow:0 1px 1px #ffffff16,inset 0 0 1px #ffffff25}
+.system-status{height:53px;padding:7px 25px 0;font-size:13.5px;font-weight:650;letter-spacing:-.1px}
+.home-screen{color:#fff}
+.home-content{padding:31px 20px 0}
+.home-widgets{gap:13px;margin-bottom:35px}
+.home-widgets button{height:137px;border-radius:24px;box-shadow:0 1px 0 #ffffff57 inset,0 5px 17px #20232c13}
+.weather-widget{background:linear-gradient(145deg,#7191a4ba,#405e75ce);backdrop-filter:blur(16px)}
+.calendar-widget{background:#fcfbf8eb;backdrop-filter:blur(16px)}
+.home-apps{gap:22px 8px}
+.spring-icon{border-radius:22%;box-shadow:0 1px 1px #ffffff2b inset,0 3px 10px #1e253019;background:#fff;transform:translateZ(0)}
+.spring-label{font-size:11px;font-weight:480;letter-spacing:-.1px;text-shadow:0 1px 5px #0a0a0a7d}
+.home-dock{border-radius:29px;padding:12px 5px;background:#f9faf944;border:1px solid #ffffff42;box-shadow:0 8px 26px #17191f22,inset 0 1px 1px #ffffff8a;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.spotlight-pill{border:1px solid #ffffff43;background:#ffffff28;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:6px 15px;font-weight:500}
+.lock-screen{isolation:isolate}
+.lock-screen:before{content:"";pointer-events:none;position:absolute;z-index:0;inset:0;background:linear-gradient(180deg,#10101434 0%,transparent 30%,transparent 60%,#1010143d 100%)}
+.lock-clock{position:relative;z-index:1;padding-top:46px;gap:0}
+.lock-clock>svg{margin:0 0 12px;width:15px;height:15px;stroke-width:2.4}
+.lock-clock>p{font-size:16px;font-weight:550;letter-spacing:-.4px;text-shadow:0 1px 6px #0002}
+.lock-clock>strong{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;font-size:clamp(67px,18vw,89px);font-weight:620;letter-spacing:-6px;line-height:1.08;font-variant-numeric:tabular-nums;text-shadow:0 4px 18px #00000014}
+.lock-bottom{bottom:49px;inset-inline:25px;z-index:2}
+.lock-bottom>button:not(.unlock-label){width:49px;height:49px;background:#13151b50;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid #ffffff24}
+.lock-bottom .unlock-label{font-size:11px;letter-spacing:.1px;color:#fffced}
+.home-gesture>span{height:5px;width:125px}
+.jhead{background:#fbfbfce9;border-bottom:1px solid #eaeaed;font-size:15px}
+.wechat-view{background:#f4f4f5}
+.social-view{background:#fff}
+.social-profile{background:#fff}
+.social-profile footer{display:flex;flex-wrap:wrap;justify-content:space-around;gap:8px 11px;padding:13px 10px}
+.social-profile footer span{display:flex;flex-direction:column;align-items:center;min-width:59px;gap:3px;font-size:11px;color:#828387}
+.social-profile footer b{font-size:17px;color:#17171a;font-weight:670;font-variant-numeric:tabular-nums}
+.social-load-more{display:block;margin:17px auto 25px;padding:10px 22px;border:1px solid #e4e5e7;background:#fff;border-radius:30px;color:#666a72;font-size:12px}
+.message-clock{display:block;font-size:10px;color:#888;margin-top:4px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.outgoing .message-clock{color:#687a5c}
+.social-note,.ig-feed-post{content-visibility:auto;contain-intrinsic-size:auto 380px}
+.social-note img,.ig-feed-post img{object-fit:cover}
+.social-body,.wechat-body{-webkit-overflow-scrolling:touch}
+.social-note button:focus-visible,.chat-list-row:focus-visible{outline:2px solid #5d88b6;outline-offset:-2px}
+@media(max-width:580px){.phone-stage{padding:8px}.phone-device{width:min(393px,calc((100dvh - 16px)*.461))}.home-content{padding-top:24px}}
+@media(prefers-reduced-motion:reduce){.phone-device,.spring-icon,.social-note,.ig-feed-post{transition:none!important;animation:none!important}}
