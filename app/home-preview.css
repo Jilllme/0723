@@ -126,3 +126,73 @@
  .home-preview-surface .home-widgets{margin-bottom:10px}
  .home-preview-surface .home-apps{row-gap:8px}
 }
+
+
+/* iOS 27-inspired Liquid Glass: desktop preview only.
+   Transparent layered optics, thin specular borders, gentle parallax-free depth.
+   Preserve corrected sizing and existing lock/passcode screens. */
+.home-preview-surface{
+ background:
+ radial-gradient(ellipse at 25% 24%,rgba(235,184,220,.34),transparent 34%),
+ radial-gradient(ellipse at 78% 79%,rgba(115,154,196,.34),transparent 48%),
+ radial-gradient(ellipse at 76% 18%,rgba(143,104,162,.30),transparent 42%),
+ linear-gradient(160deg,#61546f 0%,#302c4c 48%,#525e82 100%);
+}
+.home-preview-surface .home-screen{
+ --glass-fill:rgba(238,241,255,.13);
+ --glass-edge:rgba(255,255,255,.45);
+ --glass-shadow:0 9px 24px rgba(11,15,40,.19),inset 0 1px 0 rgba(255,255,255,.50),inset 0 -1px 0 rgba(255,255,255,.11);
+}
+.home-preview-surface .home-dock,
+.home-preview-surface .spotlight-pill,
+.home-preview-surface .home-widgets button{
+ position:relative;
+ isolation:isolate;
+ overflow:hidden;
+ border:1px solid var(--glass-edge);
+ background:var(--glass-fill);
+ -webkit-backdrop-filter:blur(25px) saturate(190%) brightness(1.12);
+ backdrop-filter:blur(25px) saturate(190%) brightness(1.12);
+ box-shadow:var(--glass-shadow);
+}
+.home-preview-surface .home-dock::before,
+.home-preview-surface .spotlight-pill::before,
+.home-preview-surface .home-widgets button::before{
+ content:"";position:absolute;inset:0;pointer-events:none;z-index:-1;
+ border-radius:inherit;
+ background:linear-gradient(165deg,rgba(255,255,255,.34),rgba(255,255,255,.09) 24%,transparent 51%,rgba(255,255,255,.07) 87%,rgba(255,255,255,.24));
+}
+.home-preview-surface .home-dock::after,
+.home-preview-surface .home-widgets button::after{
+ content:"";position:absolute;inset:1px;pointer-events:none;z-index:-1;
+ border-radius:inherit;box-shadow:inset 0 1px 2px rgba(255,255,255,.26),inset 0 -1px 2px rgba(255,255,255,.14);
+}
+.home-preview-surface .home-dock{
+ background:rgba(236,242,255,.18);
+ border-color:rgba(255,255,255,.55);
+ -webkit-backdrop-filter:blur(31px) saturate(205%) brightness(1.12);
+ backdrop-filter:blur(31px) saturate(205%) brightness(1.12);
+ box-shadow:0 16px 30px rgba(9,12,33,.20),inset 0 1.5px 0 rgba(255,255,255,.67),inset 0 -1px 0 rgba(255,255,255,.24);
+}
+.home-preview-surface .weather-widget,
+.home-preview-surface .calendar-widget{
+ background:rgba(236,242,255,.15);
+ color:white;
+ text-shadow:0 1px 5px rgba(12,15,28,.25);
+}
+.home-preview-surface .calendar-widget>span{color:#ffe2e2}
+.home-preview-surface .calendar-widget p{color:#fff;border-left-color:rgba(255,255,255,.7)}
+.home-preview-surface .calendar-widget p small{color:rgba(255,255,255,.84)}
+.home-preview-surface .spotlight-pill{
+ background:rgba(236,242,255,.15);
+ border-color:rgba(255,255,255,.48);
+ box-shadow:0 4px 16px rgba(5,9,24,.13),inset 0 1px 0 rgba(255,255,255,.48);
+}
+.home-preview-surface .spring-icon{
+ box-shadow:0 4px 12px rgba(10,12,30,.24),inset 0 1px 0 rgba(255,255,255,.2);
+}
+@media(prefers-reduced-transparency:reduce){
+ .home-preview-surface .home-dock,.home-preview-surface .spotlight-pill,.home-preview-surface .home-widgets button{
+ background:rgba(105,109,135,.88);-webkit-backdrop-filter:none;backdrop-filter:none;
+ }
+}
