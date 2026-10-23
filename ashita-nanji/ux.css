@@ -1,0 +1,77 @@
+/* Interactive travel experience — isolated enhancements for 《明天几点出发？》 */
+.boarding-page{min-height:100%;height:100dvh;position:relative;overflow-y:auto;color:#fff;background:#1f3032}
+.boarding-background{position:absolute;inset:0;background:linear-gradient(180deg,#0d252b99 0%,#162626d9 70%,#142020ee 100%),url("https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=1100&q=82") center/cover;filter:saturate(.75)}
+.boarding-top{position:relative;z-index:1;display:flex;justify-content:space-between;gap:12px;padding:38px 27px 0;font-size:9px;letter-spacing:.13em;color:#e0e9e5}
+.boarding-inner{position:relative;z-index:1;width:100%;min-height:calc(100% - 70px);padding:48px 26px 34px;display:flex;flex-direction:column;justify-content:flex-end}
+.board-head{font:normal clamp(31px,9vw,43px)/1.48 var(--serif);letter-spacing:.075em;text-shadow:0 3px 20px #0005}
+.board-blurb{font-size:12px;line-height:2.1;color:#e5ece7;margin:15px 0 26px}
+.boarding-ticket{position:relative;color:#263e36;border-radius:13px;background:#f7f7f0;box-shadow:0 12px 40px #0006;padding:21px 20px 0;user-select:none;touch-action:pan-y;cursor:grab;transition:transform .18s,box-shadow .18s}
+.boarding-ticket:active{transform:rotate(1.5deg) translateX(6px);box-shadow:0 18px 46px #0008;cursor:grabbing}
+.ticket-title{font-size:9px;letter-spacing:.2em;display:flex;justify-content:space-between;color:#718779;border-bottom:1px solid #d8dfd5;padding-bottom:16px}
+.ticket-route{display:flex;align-items:center;justify-content:space-between;margin:23px 0 18px;font-size:33px;letter-spacing:.02em;font-family:var(--sans);font-weight:650}
+.ticket-route>div{display:flex;flex-direction:column;gap:5px}.ticket-route small{font-size:8px;letter-spacing:.17em;font-weight:400;color:#91a296}
+.ticket-route .ticket-flight{font-size:10px;letter-spacing:.05em;color:#adc0b0;margin:0 8px;white-space:nowrap}
+.ticket-fields{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:8px;margin:0 0 20px}
+.ticket-fields span{font-size:8px;letter-spacing:.12em;color:#8c9b90;display:flex;flex-direction:column;gap:8px}
+.ticket-fields b{font-size:13px;color:#365447;letter-spacing:.03em;word-break:break-all}
+.ticket-foot{border-top:1px dashed #afc0b2;padding:15px 1px 17px;display:flex;justify-content:space-between;color:#97a89a;letter-spacing:.13em;font-size:8px}
+.swipe-caption{margin:19px auto 18px;text-align:center;font-size:11px;letter-spacing:.15em;color:#e5eae5}
+.swipe-caption span{font-size:18px;vertical-align:-1px;display:inline-block;animation:board-nudge 2.4s ease-in-out infinite}
+.board-footer{display:block;text-align:center;color:#bdcfc4;font-size:9px;margin-top:15px;letter-spacing:.06em}
+@keyframes board-nudge{0%,70%,100%{transform:translateX(0)}85%{transform:translateX(12px)}}
+.unread-message{margin:19px 0 12px;padding:15px;background:#ecf3ec;border:1px solid #d7e3d8;border-radius:11px;display:flex;align-items:center;gap:12px}
+.wechat-symbol{background:#73a379;color:white;width:39px;height:39px;min-width:39px;border-radius:11px;font-size:16px;display:grid;place-items:center;box-shadow:0 4px 12px #70a17525}
+.unread-message span{display:flex;flex-direction:column;gap:7px;font-size:12px;color:#435a4b}
+.unread-message small{color:#829487;font-size:10px}
+.message-button-group{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:15px}
+.message-button-group .primary{flex:1;min-width:160px}
+.message-button-group .ghost{padding:15px 11px;font-size:11px}
+.chat{animation:message-in .25s ease both}
+.chat-label{margin-left:3px}
+.chat.me .bubble{background:#d8ebd5}
+.chat.them .bubble{background:#eaece8}
+@keyframes message-in{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+.shop-title{font:normal 24px var(--serif);letter-spacing:.05em;margin:11px 0 7px}
+.shop-wallet{margin:16px 0;background:#eaf0e8;border-radius:8px;padding:14px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#6c826f}
+.shop-wallet b{font-size:18px;color:#4a6653;font-weight:500;font-variant-numeric:tabular-nums}
+.shop-grid{display:grid;gap:9px;margin:12px 0 18px}
+.shop-item{border:1px solid #dbe1d9;background:#fff;padding:12px 10px;border-radius:8px;display:flex;align-items:center;gap:11px;width:100%;text-align:left;color:#35453a}
+.shop-item.on{background:#f0f5ee;border-color:#70907a;box-shadow:inset 0 0 0 1px #c7d8c6}
+.shop-mark{width:37px;height:37px;min-width:37px;border:1px solid #d6e0d4;background:#f4f7f1;display:grid;place-items:center;font:normal 24px var(--serif);color:#728c75;border-radius:50%}
+.shop-item-info{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
+.shop-item-info b{font-size:13px;font-weight:550}
+.shop-item-info small{font-size:10px;color:#869888}
+.shop-price{font-size:12px;white-space:nowrap;color:#54725b}
+.shop-listen{border:1px solid #d3dfd2;border-radius:8px;background:#e6eee4;padding:12px;display:flex;gap:11px;align-items:center;margin-bottom:18px}
+.listen-disc{width:42px;height:42px;min-width:42px;border-radius:50%;background:#5a7662;color:#eff4ed;display:grid;place-items:center;font-size:22px;box-shadow:inset 0 0 0 4px #ffffff24}
+.listen-copy{min-width:0;flex:1;display:flex;flex-direction:column;gap:6px}
+.listen-copy b{font-size:12px}.listen-copy small{font-size:10px;color:#6f8874}
+.listen-button{border:0;background:#486e56;color:white;border-radius:50%;min-width:43px;width:43px;height:43px;font-size:15px}
+.shop-purchase{background:#f0f4ee;border:1px solid #d7e2d5;padding:17px;border-radius:8px}
+.shop-purchase b{font-size:13px;color:#375444}.shop-purchase p{font-size:11px;line-height:1.8;color:#798a7b}
+.shop-note{font-size:10px;line-height:1.9;color:#98a89b;margin:18px 0}
+.camera-app{background:#151d1d;color:#f3f5f2;min-height:calc(100dvh - 58px);padding-bottom:20px;display:flex;flex-direction:column}
+.camera-header{padding:18px 20px 14px;font-size:10px;color:#d9e1da;display:flex;justify-content:space-between;gap:9px;letter-spacing:.09em}
+.camera-view{position:relative;width:100%;aspect-ratio:3/4;background-image:linear-gradient(#0002,#0005),var(--camera-photo);background-position:center;background-size:cover;transition:background-size .3s,background-position .3s;overflow:hidden;max-height:52dvh}
+.camera-view.frame-1{background-size:150%;background-position:55% 45%}
+.camera-view.frame-2{background-size:100%;background-position:center 65%}
+.viewfinder-lines{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr)}
+.viewfinder-lines:before,.viewfinder-lines:after{content:"";position:absolute;top:0;bottom:0;border-left:1px solid #ffffff55}
+.viewfinder-lines:before{left:33.33%}.viewfinder-lines:after{left:66.66%}
+.viewfinder-lines i:nth-child(1),.viewfinder-lines i:nth-child(2){position:absolute;left:0;right:0;border-top:1px solid #ffffff55}
+.viewfinder-lines i:nth-child(1){top:33.33%}.viewfinder-lines i:nth-child(2){top:66.66%}
+.focus-dot{position:absolute;top:46%;left:50%;transform:translate(-50%,-50%);color:#fff8;font-size:21px;font-weight:100}
+.cam-date{position:absolute;bottom:13px;left:16px;font-size:9px;letter-spacing:.13em;color:#fff}
+.camera-body{padding:18px 25px 28px;display:flex;flex-direction:column;align-items:stretch;gap:14px}
+.frame-choices{display:flex;justify-content:center;gap:7px}
+.frame-option{border:1px solid #586a60;background:#27332e;color:#becabe;border-radius:20px;font-size:11px;padding:8px 11px}
+.frame-option.on{background:#dce9dd;color:#274d32;border-color:#e1f0e2}
+.shutter{align-self:center;width:64px;height:64px;border-radius:50%;border:3px solid #f3f7f1;background:transparent;display:grid;place-items:center}
+.shutter span{height:48px;width:48px;border-radius:50%;background:#ecf2ec}
+.camera-body .small-btn{color:#c0cdc1;align-self:center}
+.camera-feedback{text-align:center;color:#dbe8d9;font-size:12px}
+.camera-disclaimer{text-align:center;font-size:9px;line-height:1.6;color:#98aaa0}
+.camera-body .primary{min-width:0;background:#dce8db;color:#244c34;border-color:#dce8db}
+.camera-body .ghost{color:#dbe9db;border-color:#7d9383;min-width:0}
+@media(max-height:720px){.boarding-inner{padding-top:20px}.board-head{font-size:29px}.board-blurb{margin:9px 0 15px}.camera-view{max-height:43dvh}}
+@media(prefers-reduced-motion:reduce){.swipe-caption span{animation:none}}
