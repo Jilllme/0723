@@ -91,7 +91,8 @@ function handle(act,button,ctx){
  if(act==="portrait-flip")state.portraitFlipped=!state.portraitFlipped;
  if(act==="portrait-filter"){const filter=button.dataset.filter;if(FILTERS[filter])state.portraits[state.portraitRole].filter=filter;}
  if(act==="portrait-clear"){const role=button.dataset.role;if(role==="heroine"||role==="zhangji")state.portraits[role].image=null;}
- persist();render();return true;
+ const scroller=document.querySelector?.(".screen");const y=scroller?scroller.scrollTop:0;
+ persist();render();const next=document.querySelector?.(".screen");if(next)next.scrollTop=y;return true;
 }
 window.PortraitStudio={render,referenceStrip,compress,roles:ROLES,safeImage,avatarChip:mini,profile,album,detail,ensure,handle,FILTERS};
 })();
