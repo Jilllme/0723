@@ -712,7 +712,7 @@ c("留在本章结尾","_finish",{memory:"12月21日 · 洞爷湖第一晚"})
 function initial(){return {started:false,boarded:false,name:"",current:"office",flags:{},photos:[],items:[],journal:[],choices:[],history:[],page:"story",chatProgress:{},pendingPhoto:null,shopPick:0,shopStep:"browse",budget:10000,photoOnboarding:false,avatarOnboarding:false,portraitRole:"heroine",portraitFlipped:false,portraits:{heroine:{image:null,notes:""},zhangji:{image:null,notes:""}}};}
 let state=initial(),openPhoto=null,toastTimer=null,saveError=false,portraitOrigin="save";
 try{const raw=localStorage.getItem(KEY);if(raw){const q=JSON.parse(raw);if(q&&typeof q==="object"&&scenes[q.current]){state=Object.assign(initial(),q,{page:"story"});if(state.started&&!Object.prototype.hasOwnProperty.call(q,"boarded"))state.boarded=true;}}}catch(e){saveError=true;}
-state.avatarOnboarding=false;state.photoOnboarding=false;window.PortraitStudio.ensure(state);
+state.avatarOnboarding=false;window.PortraitStudio.ensure(state);
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(Object.assign({},state,{page:"story"})));saveError=false;}catch(e){saveError=true;}}
 function e(t){return String(t==null?"":t).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");}
 function fmt(t){return e(String(t).replace(/\{name\}/g,state.name)).replace(/\n/g,"<br>");}
@@ -758,6 +758,21 @@ function validateSave(z){return z&&typeof z.name==="string"&&z.name.length>0&&ty
 root.addEventListener("click",(ev)=>{const button=ev.target.closest("[data-act]");if(!button)return;const act=button.dataset.act;if(window.PortraitStudio.handle(act,button,{state,persist,render,toast}))return;if(window.TravelUX.action(act,button,{state,currentScene,persist,render,choose,toast}))return;if(act==="open-login"){window.__loginOpen=true;render();setTimeout(()=>document.getElementById("player-name")?.focus(),30);}else if(act==="close-login"){window.__loginOpen=false;render();}else if(act==="begin")doStart();else if(act==="pick")choose(Number(button.dataset.index));else if(act==="back")goBack();else if(act==="tab"){state.page=button.dataset.tab;render();scrollTopMain();}else if(act==="back-to-story"){state.page="story";render();}else if(act==="open-archive"){state.page="save";render();}else if(act==="open-portraits"||act==="open-avatar"){portraitOrigin=state.page==="portraits"?"save":state.page;if(button.dataset.role==="heroine"||button.dataset.role==="zhangji")state.portraitRole=button.dataset.role;state.portraitFlipped=false;state.page="portraits";render();scrollTopMain();}else if(act==="portrait-back"){capturePortraitNotes();persist();state.page=portraitOrigin==="portraits"?"save":portraitOrigin;render();}else if(act==="portrait-save-notes"){capturePortraitNotes();persist();render();toast(saveError?"本地存储不可用，描述未能保存":"两人的外貌设定已保存");}else if(act==="portrait-clear"){const role=button.dataset.role;if(role==="heroine"||role==="zhangji"){capturePortraitNotes();state.portraits[role].image=null;persist();render();toast("已清除该人物的参考图");}}else if(act==="photo"){openPhoto=state.photos[Number(button.dataset.index)];render();}else if(act==="close-photo"){openPhoto=null;render();}else if(act==="export")exportSave();else if(act==="rename"){const name=prompt("修改旅行册中的称呼（1—16字）",state.name);if(name&&name.trim()&&name.trim().length<=16){state.name=name.trim();persist();render();toast("旅行者名字已更新");}}else if(act==="restart"){if(confirm("重新开始会清除当前设备的游戏进度。建议先导出存档。确定继续吗？")){try{localStorage.removeItem(KEY);}catch(e){}state=initial();openPhoto=null;window.__loginOpen=true;render();}}else if(act==="cover-info"){alert("《明天几点出发？》固定剧情试玩版\n\n已接入：序章、12月19日札幌、12月20日小樽、12月21日洞爷湖开场与分支。\n12月22—25日尚未制作。\n\n没有AI自由生成。每条消息和选项均来自预设脚本；存档存在当前浏览器。");}});
 window.TravelUX.bindGesture(root,{get state(){return state;},persist,render,scrollTopMain});
 root.addEventListener("keydown",(ev)=>{if(ev.key==="Enter"&&document.activeElement?.id==="player-name"){ev.preventDefault();doStart();}if(ev.key==="Escape"&&openPhoto){openPhoto=null;render();}});
+root.addEventListener("input",(ev)=>{
+ const el=ev.target;
+ if(el.id?.startsWith("portrait-note-")){const role=el.id.slice("portrait-note-".length);if(role==="heroine"||role==="zhangji"){ensurePortraits();state.portraits[role].notes=String(el.value||"").slice(0,220);}return;}
+ const key=el.dataset?.portraitSlider;
+ if(!["zoom","x","y"].includes(key))return;
+ ensurePortraits();const role=state.portraitRole==="zhangji"?"zhangji":"heroine";
+ const val=Math.max(key==="zoom"?100:0,Math.min(key==="zoom"?180:100,Number(el.value)||0));
+ state.portraits[role][key]=val;
+ const img=root.querySelector(".film-person-picture .photo-person-image");
+ if(img){const r=state.portraits[role];img.style.objectPosition=r.x+"% "+r.y+"%";img.style.transform="scale("+(r.zoom/100)+")";}
+ const readout=el.nextElementSibling;if(readout)readout.textContent=Math.round(val)+(key==="zoom"?"%":"");
+});
+root.addEventListener("change",(ev)=>{
+ if(ev.target.id?.startsWith("portrait-note-")||ev.target.dataset?.portraitSlider){persist();return;}
+});
 root.addEventListener("change",async(ev)=>{if(ev.target.id?.startsWith("portrait-file-")){const role=ev.target.dataset.role;if(role!=="heroine"&&role!=="zhangji")return;const file=ev.target.files?.[0];if(!file)return;try{capturePortraitNotes();const image=await window.PortraitStudio.compress(file);ensurePortraits();const previous=state.portraits[role].image;state.portraits[role].image=image;persist();if(saveError){state.portraits[role].image=previous;toast("浏览器存储空间不足，请换更小的照片");return;}render();toast("已保存参考照，后续拍照可查看");}catch(ex){toast(ex?.message||"参考照片读取失败");}return;}if(ev.target.id!=="import-save")return;const file=ev.target.files?.[0];if(!file)return;try{const z=JSON.parse(await file.text());if(!validateSave(z))throw Error("无效存档");if(!confirm("确定导入存档？当前本机进度会被替换。"))return;state=Object.assign(initial(),z,{started:true,boarded:true,avatarOnboarding:false,photoOnboarding:false,page:"save",name:z.name.slice(0,16)});window.PortraitStudio.ensure(state);persist();render();toast("存档导入成功");}catch(e){toast("无法导入：存档文件无效");}});
 render();
 })();
