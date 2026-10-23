@@ -1,0 +1,23 @@
+/* Original interactive paper-doll avatar maker; isolated from the phone simulator. */
+.avatar-studio{padding:25px 22px 42px;max-width:520px;margin:0 auto;color:#2f3b35}
+.avatar-studio-eyebrow{font-size:10px;letter-spacing:.22em;color:#809488;font-weight:700}
+.avatar-studio h1{font:normal clamp(24px,7.5vw,31px)/1.35 var(--serif);margin:13px 0 10px;letter-spacing:.04em}
+.avatar-lede{font-size:12px;line-height:1.9;color:#78877d;margin:0 0 16px}
+.avatar-stage{position:relative;max-width:308px;width:83%;margin:0 auto 17px;border-radius:18px;overflow:hidden;box-shadow:0 14px 45px #53655925;background:#e5ebe1}
+.avatar-stage svg{width:100%;display:block;max-height:350px}
+.avatar-stage-top{position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;justify-content:space-between;z-index:2;gap:8px;font-size:9px;font-weight:600;letter-spacing:.12em;color:#3d5a4a;background:#f5f7f18a;backdrop-filter:blur(5px);border-radius:9px;padding:7px 9px}
+.avatar-stage-foot{background:#ebf1e9;padding:11px 13px;text-align:center;font-size:9px;letter-spacing:.17em;color:#728b77}
+.avatar-roles,.avatar-cats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:12px 0}
+.avatar-roles button,.avatar-cats button{border:1px solid #d3dcd1;border-radius:9px;background:#ffffff;color:#708175;padding:12px 10px;font-size:12px;min-height:44px}
+.avatar-roles button.active,.avatar-cats button.active{background:#516d5b;color:#fff;border-color:#516d5b}
+.avatar-cats{display:flex;overflow-x:auto;gap:8px;padding:1px 0 7px;scrollbar-width:none}.avatar-cats::-webkit-scrollbar{display:none}.avatar-cats button{white-space:nowrap;min-width:78px;padding:11px 13px}
+.avatar-field{margin:16px 0}.avatar-field-name{font-size:12px;letter-spacing:.08em;color:#4e6458;font-weight:600;margin:0 0 10px}.avatar-choice-scroll{display:flex;gap:8px;overflow-x:auto;padding:0 1px 9px;scrollbar-width:thin;scrollbar-color:#c6d4c8 transparent}.avatar-choice{flex:0 0 auto;display:flex;align-items:center;gap:8px;min-height:44px;background:#fff;border:1px solid #dce3d8;border-radius:8px;padding:9px 12px;color:#52665a;font-size:12px}.avatar-choice.active{background:#eaf1e9;border-color:#66836c;box-shadow:inset 0 0 0 1px #66836c;color:#3c5c47}.avatar-swatch{display:inline-block;width:19px;height:19px;min-width:19px;border-radius:50%;border:1px solid #b3c0b46f;box-shadow:0 0 0 2px #fff}
+.avatar-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}.avatar-actions button{min-width:0}
+.avatar-finish{border-top:1px solid #dfe6dc;margin-top:19px;padding-top:14px}.avatar-finish p{font-size:10px;line-height:1.9;color:#87978b;margin:0 0 15px}
+.avatar-profile{display:flex;gap:13px;align-items:center;padding:15px;background:#eef3ed;border-radius:10px;margin:20px 0}.avatar-profile-figure{width:76px;height:89px;min-width:76px;overflow:hidden;border-radius:11px}.avatar-profile-figure svg{width:100%;height:100%;object-fit:cover}.avatar-profile-text{flex:1;min-width:0}.avatar-profile-text h3{font:normal 19px var(--serif);margin:4px 0}.avatar-profile-text p{font-size:10px;color:#87988d;line-height:1.75;margin:6px 0}.avatar-profile button{border:1px solid #a9b9a9;border-radius:6px;background:#fff;color:#58735e;padding:11px;font-size:11px;min-height:42px}
+.avatar-chip{display:inline-grid;place-items:center;width:32px;height:34px;min-width:32px;overflow:hidden;border-radius:9px;background:#e4eee5}.avatar-chip svg{display:block;width:32px;height:39px;transform:translateY(5px)}.avatar-chip.zhangji{background:#e3e8ea}
+.chat.them{margin-right:auto}.chat.me{margin-left:auto}.chat{max-width:94%}.chat-item-inner{display:flex;gap:8px;align-items:flex-end;max-width:100%}.chat.me .chat-item-inner{flex-direction:row-reverse}.chat-item-content{display:flex;flex-direction:column;gap:5px;max-width:calc(100% - 42px)}.chat.me .chat-item-content{align-items:flex-end}.chat-label{font-size:10px;color:#96a397}.chat .bubble{font-size:13px;line-height:1.85}
+.avatar-camera-strip{border:1px solid #e2e7df;border-radius:8px;margin:12px 0;padding:10px;display:flex;align-items:center;gap:10px;background:#f5f7f2;color:#5b7465;font-size:11px}.avatar-camera-strip .avatar-chip{width:46px;height:46px;min-width:46px}.avatar-camera-strip .avatar-chip svg{width:46px;height:56px}.avatar-camera-strip small{display:block;font-size:9px;color:#9baa9c;margin-top:5px}
+@media(max-width:370px){.avatar-stage{width:78%;max-width:250px}.avatar-studio{padding:21px 17px}.avatar-roles button{font-size:11px;padding:11px 6px}.avatar-profile{gap:8px}.avatar-profile-figure{width:61px;min-width:61px;height:73px}}
+@media(max-height:730px){.avatar-stage{max-width:238px}}
+@media(prefers-reduced-motion:reduce){.avatar-choice,.avatar-roles button{transition:none}}
