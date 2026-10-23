@@ -22,8 +22,8 @@ function contentImg(s,role,e,extra=""){
  const rec=record(s,role),src=safeImage(rec.image);
  if(!src)return '<div class="portrait-empty-icon"><span>✳</span><small>NO PHOTO</small></div>';
  const z=Math.max(1,Math.min(1.8,(Number(rec.zoom)||110)/100));
- const x=Math.max(0,Math.min(100,Number(rec.x)||50));
- const y=Math.max(0,Math.min(100,Number(rec.y)||45));
+ const x=Math.max(0,Math.min(100,Number.isFinite(Number(rec.x))?Number(rec.x):50));
+ const y=Math.max(0,Math.min(100,Number.isFinite(Number(rec.y))?Number(rec.y):45));
  const css=FILTERS[rec.filter]?.css||"none";
  return '<img '+extra+' class="photo-person-image" alt="'+(role==="heroine"?"旅行者个人参考照片":"张极个人参考照片")+'" src="'+e(src)+'" style="object-position:'+x+'% '+y+'%;transform:scale('+z+');filter:'+css+'"/>';
 }
