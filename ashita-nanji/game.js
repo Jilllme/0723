@@ -441,19 +441,30 @@ n("张极站在桥边找了一会儿角度，终于放下手机。"),
 d("“算了，先给你拍吧。”\n“你想怎么拍？”")
 ],"留下什么照片？",[
 c("请他拍一张单人照","north_choice",{photo:{title:"小樽运河 · 单人旅行照",type:"sea",day:20}}),
-c("拍一张合照","couple_photo",{}, "合照距离可以自己决定"),
+c("拍一张合照","couple_photo",{}, "拍照后可以决定是否保留"),
 c("只拍运河和旧仓库","north_choice",{photo:{title:"小樽运河 · 雪中的仓库",type:"sea",day:20}}),
 c("不拍照，先散步","north_choice")
 ]);
-def("couple_photo",20,"下午","小樽 · 运河","站近一点？","sea",[
-n("张极请路过的游客帮忙拍一张合照。第一张照片里，你们中间隔着一段距离。"),
-n("他看了眼屏幕，笑了一下。"),
-d("“要不要站近一点？刚才看着像碰巧路过的。”"),
-n("帮忙拍照的游客仍然在等，你可以决定是否重新拍。")
-],"合照距离",[
-c("稍微站近一些，再拍一张","north_choice",{photo:{title:"小樽运河 · 合照",type:"sea",day:20},set:{photo_distance:"near"}}),
-c("这样就挺好，保留原来的照片","north_choice",{photo:{title:"小樽运河 · 第一张合照",type:"sea",day:20,alreadyTaken:true},set:{photo_distance:"normal"}}),
-c("还是各自拍吧","north_choice",{set:{photo_distance:"none"}})
+def("couple_photo",20,"下午","小樽 · 运河","拍完以后","sea",[
+n("张极请旁边的游客帮忙拍了一张。对方把手机递回来，他看了眼屏幕。"),
+d("“我这张怎么闭眼了。”"),
+n("他把手机转过来给你看。运河和仓库都拍进去了，他的眼睛确实闭着。"),
+d("“还拍吗？”"),
+n("帮忙拍照的人已经走远。要重拍的话，得再找人帮忙。")
+],"怎么回应？",[
+c("“再拍一张吧。”","couple_retry",{set:{otaru_shared_photo:"retake"},memory:"小樽运河：第一次合照张极闭了眼，决定再拍一次"}),
+c("“没事，这张也挺好。”","north_choice",{photo:{title:"小樽运河 · 那张闭眼的合照",type:"sea",day:20,alreadyTaken:true,unshownFaces:true},set:{otaru_shared_photo:"kept_first"},memory:"保留了张极闭眼的那张小樽合照"}),
+c("“算了，拍风景吧。”","north_choice",{set:{otaru_shared_photo:"scenery"}})
+]);
+def("couple_retry",20,"下午","小樽 · 运河","再拍一张","sea",[
+n("等另一拨游客走过去，你们才找到愿意帮忙的人。"),
+n("这次张极没闭眼。照片里还有刚好从桥边经过的路人。"),
+d("“行，这张正常。”"),
+n("他把照片放大看了一眼，又递给你。"),
+d("“发你？”")
+],"你怎么回答？",[
+c("“发我吧。”","north_choice",{photo:{title:"小樽运河 · 第二张合照",type:"sea",day:20,alreadyTaken:true,unshownFaces:true},set:{otaru_shared_photo:"sent"},memory:"张极把小樽的合照发了过来"}),
+c("“你留着就行。”","north_choice",{set:{otaru_shared_photo:"his_phone"},memory:"小樽合照留在张极手机里，暂时没发送"})
 ]);
 def("north_choice",20,"下午","小樽 · 运河","还往前吗？","sea",[
 n("游客渐渐少了一些。张极把围巾往上拉了拉。"),
@@ -612,6 +623,7 @@ m("林蔓","今天怎么样？明天是不是要去洞爷湖？"),
 p("嗯，明天换酒店。"),
 m("林蔓","行，多拍点照片给我。"),
 cond(joint,m("张极","我查好明天的交通了。你原来的酒店不用改，我自己订房间。\n那明天见。")),
+cond((s)=>["sent","kept_first"].includes(s.flags.otaru_shared_photo),m("张极 21:43","小樽那张我看了一下。\n你要原图的话我再发你一份。")),
 cond(solo,n("你确认了自己的交通和酒店。今天没有和张极约定同行的情况下，明天依然可以独立前往洞爷湖。")),
 n("你把充电器接上，把第二天要穿的外套放在椅背上。")
 ],"CHAPTER 02 · END",[
@@ -733,15 +745,15 @@ const DAYS=[["19","札幌","抵达、酒店、第一顿晚饭"],["20","小樽 / 
 function renderMap(){const highest=currentScene().day;return '<div class="section"><div class="label-caps">ROUTE JOURNAL / HOKKAIDO</div><h1 class="section-title">七日行程</h1><p class="section-sub">札幌住两晚，洞爷湖两晚，函馆两晚。你可以查看路线，后续未写成游戏的章节暂时锁定。</p><div class="book-spread"><div class="label-caps">TRIP ROUTE · DEC 19 — 25</div><h3>札幌 → 洞爷湖 → 函馆</h3><p>从北京出发，按实际交通和当天的精力调整行程。不强制同行或共享住宿。</p><div class="progress"><span style="width:'+Math.max(0,Math.min(100,(highest-18)/7*100))+'%"></span></div></div><div class="route-line">'+DAYS.map((a,i)=>'<div class="route-day '+(highest>=19+i?"passed":"")+'"><div class="route-date">DECEMBER '+a[0]+'　'+(i<=2?(highest>=19+i?"旅程记录":"尚未到达"):"后续未制作")+'</div><h3 class="route-place">'+a[1]+'</h3><div class="route-descr">'+a[2]+'</div></div>').join("")+'</div><div class="tile"><div class="label-caps">YOUR CHOICES</div><p>旅行同行：'+e(relationship())+'</p><p>去洞爷湖交通：'+e(transportLabel())+'</p><p>出发理由：'+e(state.flags.travel_reason||"还没填写")+'</p></div></div>';}
 function relationship(){const x=state.flags.continue_intent;if(x==="accepted")return"已约定继续同行";if(x==="one_day")return"先同行一天";if(["declined","deferred","none"].includes(x))return"独立旅行";const m=state.flags.meet_plan;return m==="both"?"已约札幌晚饭和小樽":m==="trial"?"已约札幌晚饭":m==="otaru"?"只约小樽":"独自旅行";}
 function transportLabel(){const m=state.flags.transport_mode;return m==="public"?"公共交通":m==="separate_arrival"?"各自抵达":m==="rental_check"?"租车待核验（默认改公共交通）":"尚未确定";}
-function renderPhotos(){return '<div class="section"><div class="label-caps">WINTER FILM / ALBUM</div><h1 class="section-title">旅行相册</h1><p class="section-sub">人物照片从你自己的相册上传、裁切与调色；旅行中的风景照片仍是场景示意，只有玩家决定拍摄后才保存。</p>'+window.PortraitStudio.album(state,e)+(state.photos.length?'<div class="gallery">'+state.photos.map((p,i)=>'<button class="photo" data-act="photo" data-index="'+i+'" aria-label="查看'+e(p.title)+'"><img src="'+jpg(p.type)+'" alt="" loading="lazy"><span>DEC '+p.day+'<br>'+e(p.title)+'</span></button>').join("")+'</div>':'<div class="empty">FILM 00 / NO PHOTOS YET<br>还没有旅行现场照片。<br>从剧情中的摄影选项开始记录。</div>')+'</div>';}
+function renderPhotos(){return '<div class="section"><div class="label-caps">WINTER FILM / ALBUM</div><h1 class="section-title">旅行相册</h1><p class="section-sub">人物照片从你自己的相册上传、裁切与调色；旅行中的风景照片仍是场景示意，只有玩家决定拍摄后才保存。</p>'+window.PortraitStudio.album(state,e)+(state.photos.length?'<div class="gallery">'+state.photos.map((p,i)=>p.unshownFaces?'<button class="photo photo-private-record" data-act="photo" data-index="'+i+'" aria-label="查看'+e(p.title)+'"><div class="photo-record-inner"><span class="photo-record-number">NEG. '+String(i+1).padStart(3,"0")+' / PRIVATE</span><span class="photo-record-symbol">▧</span><strong>这张照片在故事里</strong><small>画面留白，不展示虚构的人脸</small></div><span>DEC '+p.day+'<br>'+e(p.title)+'</span></button>':'<button class="photo" data-act="photo" data-index="'+i+'" aria-label="查看'+e(p.title)+'"><img src="'+jpg(p.type)+'" alt="" loading="lazy"><span>DEC '+p.day+'<br>'+e(p.title)+'</span></button>').join("")+'</div>':'<div class="empty">FILM 00 / NO PHOTOS YET<br>还没有旅行现场照片。<br>从剧情中的摄影选项开始记录。</div>')+'</div>';}
 function renderBag(){return '<div class="section"><div class="label-caps">SMALL THINGS, BIG DAYS</div><h1 class="section-title">随身物品</h1><p class="section-sub">购物只在你点击购买或领取后入袋。音乐盒、餐饮票据、摄影杂志都可以在这里查看。</p><div class="ticket"><div class="serial">BOARDING PASS · PERSONAL</div><h3>'+e(state.name)+' 的旅行票</h3><p>BEIJING → HOKKAIDO<br>DEC 19 — DEC 25 · 7D6N</p><span class="pill">只属于你的冬天</span></div>'+(state.items.length?state.items.map((t,i)=>'<div class="tile"><div class="label-caps">ITEM '+String(i+1).padStart(3,"0")+'</div><h3>'+e(t.name)+'</h3><p>'+e(t.desc)+'</p></div>').join(""):'<div class="empty">行李箱暂时还很空。<br>故事中获得的物品会出现在这里。</div>')+'</div>';}
 function renderSave(){const played=state.choices.length;return '<div class="section"><div class="label-caps">PERSONAL JOURNAL</div><h1 class="section-title">'+e(state.name)+' 的旅行档案</h1><p class="section-sub">这是当前设备的本地存档。关闭页面后再打开，可以继续刚才的场景。不同浏览器或无痕模式不会自动同步。</p><div class="statrow"><span>目前场景</span><strong>'+e(currentScene().title)+'</strong></div><div class="statrow"><span>已作出的选择</span><strong>'+played+' 次</strong></div><div class="statrow"><span>保留的照片</span><strong>'+state.photos.length+' 张</strong></div><div class="statrow"><span>收集的物品</span><strong>'+state.items.length+' 件</strong></div><div class="statrow"><span>存档状态</span><strong>'+(!saveError?"已保存在本机":"浏览器存储不可用")+'</strong></div><div class="portrait-save-tile"><div><h3>两个人的照片档案</h3><p>上传真人照片 · 翻转照片卡 · 调整胶片色调</p></div><button data-act="open-portraits">打开摄影档案 ↗</button></div><div class="spacer"></div><button class="primary" data-act="back-to-story">继续当前剧情 →</button><div class="spacer"></div><div class="clickrow"><button class="ghost" data-act="export">导出存档 JSON ↓</button><button class="ghost" data-act="rename">修改称呼</button></div><div class="spacer"></div><label class="mini-btn" style="display:block;text-align:center" for="import-save">从 JSON 存档导入</label><input type="file" id="import-save" accept=".json,application/json" style="position:absolute;opacity:0;pointer-events:none;width:1px"><div class="divider"></div><div class="label-caps">TRAVEL NOTES / 已发生的片段</div>'+(state.journal.length?'<ol class="journal">'+state.journal.slice(-16).reverse().map(x=>'<li>'+e(x)+'</li>').join("")+'</ol>':'<p class="section-sub">故事开始以后，你的选择会被记在这里。</p>')+'<div class="divider"></div><button class="ghost" data-act="restart">重新开始（会清除本机存档）</button><p class="tiny">不会重置其他 GitHub 项目或网站。重开后名字需要重新输入。</p></div>';}
 function navigation(){const tabs=[["story","剧情","read"],["map","行程","map"],["photos","相册","photos"],["bag","背包","bag"],["save","档案","save"]];return '<nav class="bottom" aria-label="游戏导航">'+tabs.map(([id,label,ic])=>'<button class="tab '+(state.page===id?"active":"")+'" data-act="tab" data-tab="'+id+'">'+icon(ic)+'<span>'+label+'</span></button>').join("")+'</nav>';}
-function render(){if(!state.started){root.innerHTML='<div class="app">'+renderCover()+'</div>';return;}if(state.photoOnboarding){root.innerHTML='<div class="app"><main class="screen">'+window.PortraitStudio.render(state,e,true)+'</main></div>';return;}if(!state.boarded){root.innerHTML='<div class="app">'+window.TravelUX.boarding(state,e)+'</div>';return;}const screen=state.page==="story"?(state.pendingPhoto?window.TravelUX.camera(state,scenes,jpg,e):renderStory()):state.page==="map"?renderMap():state.page==="photos"?renderPhotos():state.page==="bag"?renderBag():state.page==="portraits"?window.PortraitStudio.render(state,e):renderSave();root.innerHTML='<div class="app"><header class="header"><div><div class="hdr-sub">HOKKAIDO / WINTER FILM</div><div class="brand">明天几点出发？</div></div><button class="small-btn" data-act="cover-info">ⓘ 说明</button></header><main class="screen" id="main-screen">'+screen+'</main>'+(state.pendingPhoto?"":navigation())+(openPhoto?'<div class="modal"><div class="modal-card"><button class="close" data-act="close-photo">✕ 关闭</button><img src="'+jpg(openPhoto.type)+'" alt="'+e(openPhoto.title)+'"><p>DEC '+openPhoto.day+' · '+e(openPhoto.title)+'</p><div class="tiny">视觉氛围图，仅作剧情照片示意。</div></div></div>':"")+(photoPerson?window.PortraitStudio.detail(state,e,photoPerson,photoPersonFlip):"")+'</div>';}
+function render(){if(!state.started){root.innerHTML='<div class="app">'+renderCover()+'</div>';return;}if(state.photoOnboarding){root.innerHTML='<div class="app"><main class="screen">'+window.PortraitStudio.render(state,e,true)+'</main></div>';return;}if(!state.boarded){root.innerHTML='<div class="app">'+window.TravelUX.boarding(state,e)+'</div>';return;}const screen=state.page==="story"?(state.pendingPhoto?window.TravelUX.camera(state,scenes,jpg,e):renderStory()):state.page==="map"?renderMap():state.page==="photos"?renderPhotos():state.page==="bag"?renderBag():state.page==="portraits"?window.PortraitStudio.render(state,e):renderSave();root.innerHTML='<div class="app"><header class="header"><div><div class="hdr-sub">HOKKAIDO / WINTER FILM</div><div class="brand">明天几点出发？</div></div><button class="small-btn" data-act="cover-info">ⓘ 说明</button></header><main class="screen" id="main-screen">'+screen+'</main>'+(state.pendingPhoto?"":navigation())+(openPhoto?'<div class="modal"><div class="modal-card"><button class="close" data-act="close-photo">✕ 关闭</button>'+(openPhoto.unshownFaces?'<div class="photo-private-modal"><div class="label-caps">PERSONAL NEGATIVE / NO VISIBLE FACES</div><p>这张合照已经发生在剧情里。</p><p>为了保留第一人称代入感，不用虚构人物照片代替玩家或张极。</p></div>':'<img src="'+jpg(openPhoto.type)+'" alt="'+e(openPhoto.title)+'">')+'<p>DEC '+openPhoto.day+' · '+e(openPhoto.title)+'</p><div class="tiny">视觉氛围图，仅作剧情照片示意。</div></div></div>':"")+(photoPerson?window.PortraitStudio.detail(state,e,photoPerson,photoPersonFlip):"")+'</div>';}
 function storeSnapshot(){state.history.push({current:state.current,flags:JSON.parse(JSON.stringify(state.flags)),photos:state.photos.slice(),items:state.items.slice(),journal:state.journal.slice(),choices:state.choices.slice(),budget:state.budget});if(state.history.length>180)state.history.shift();}
 function applyFX(fx){if(!fx)return;if(fx.set)Object.assign(state.flags,fx.set);if(fx.item&&!state.items.some(x=>x.name===fx.item.name&&x.desc===fx.item.desc)){if(fx.item.price){if(state.budget<fx.item.price)return;state.budget-=fx.item.price;}state.items.push(fx.item);}if(fx.photo&&!state.photos.some(x=>x.title===fx.photo.title))state.photos.push(fx.photo);if(fx.memory)state.journal.push(fx.memory);}
 function choose(index,opts={}){const s=currentScene(),option=s.choices[index];if(!option||option.when&&!option.when(state))return;
-if(!opts.finishPhoto&&option.fx?.photo&&!option.fx.photo.alreadyTaken){state.pendingPhoto={scene:s.id,index,frame:0,taken:false};persist();render();scrollTopMain();return;}
+if(!opts.finishPhoto&&option.fx?.photo&&!option.fx.photo.alreadyTaken&&!option.fx.photo.unshownFaces){state.pendingPhoto={scene:s.id,index,frame:0,taken:false};persist();render();scrollTopMain();return;}
 const fx=window.TravelUX.prepareFx(state,s,index,opts,option.fx);if(fx===null){toast("纪念品试玩预算不足");return;}
 if(opts.finishPhoto)state.pendingPhoto=null;
 storeSnapshot();applyFX(fx);state.choices.push({scene:s.id,text:option.text,date:"12月"+s.day+"日"});if(!fx?.memory)state.journal.push("12月"+s.day+"日 · "+option.text);
