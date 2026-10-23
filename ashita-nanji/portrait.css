@@ -1,0 +1,40 @@
+/* Fixed character portraits — intentionally distinct from synthetic AI photographs */
+.portrait-page{padding-bottom:52px}
+.portrait-intro{display:flex;align-items:center;gap:11px;margin:-3px 0 24px;color:#8b9b90;font-size:10px;letter-spacing:.07em}
+.portrait-line{height:1px;width:29px;background:#9eafa1}
+.portrait-card{margin-bottom:17px;padding:18px 16px 20px;background:#fcfdfa;border:1px solid #dce4d9;border-radius:10px}
+.portrait-card-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:17px}
+.portrait-card-title h2{font:normal 23px var(--serif);margin:7px 0 0;letter-spacing:.06em}
+.portrait-state{font-size:10px;color:#6e8975;background:#edf3eb;border:1px solid #e2eae0;border-radius:50px;padding:6px 9px;white-space:nowrap}
+.portrait-content{display:flex;gap:15px;align-items:flex-start}
+.face-preview{width:130px;min-width:130px;height:163px;flex:none;border-radius:7px;background:#edf1ea;overflow:hidden;border:1px solid #d5dfd3;display:flex;align-items:center;justify-content:center}
+.face-preview img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 22%}
+.face-placeholder{display:flex;flex-direction:column;align-items:center;gap:12px;color:#9cac9f}
+.face-placeholder span{font-size:10px;letter-spacing:.1em}
+.portrait-info{flex:1;min-width:0}
+.portrait-info p{font-size:11px;line-height:2;color:#748579;margin:0 0 13px}
+.portrait-upload{display:flex;justify-content:center;align-items:center;gap:7px;border-radius:6px;padding:12px 8px;background:#4b6a57;color:#fff;font-size:11px;text-align:center;cursor:pointer;min-height:43px}
+.portrait-upload span{font-size:17px;font-weight:300}
+.portrait-file{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+.portrait-clear{border:0;background:transparent;text-decoration:underline;text-underline-offset:3px;color:#84998a;padding:12px 0;font-size:11px;min-height:38px;width:100%}
+.portrait-note-label{display:block;font-size:10px;letter-spacing:.09em;color:#69816f;margin:18px 0 9px}
+.portrait-notes{width:100%;min-height:81px;max-height:190px;resize:vertical;border:1px solid #dce4dc;border-radius:7px;background:#f9faf6;color:#364b3b;padding:11px;font-size:12px;line-height:1.8;font-family:var(--sans)}
+.portrait-notes::placeholder{color:#a6b1a8}
+.portrait-back{width:100%;margin-top:10px}
+.portrait-privacy{margin-top:20px;padding:15px 14px;border-left:2px solid #9daf9c;background:#eff2ec}
+.portrait-privacy>b{font-size:12px;color:#48634f}
+.portrait-privacy p{font-size:11px;color:#6c816f;line-height:1.95;margin:10px 0}
+.portrait-privacy p b{color:#536f5c}
+.portrait-save-tile{margin:14px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#edf2ea;border:1px solid #dbe5d9;border-radius:8px;padding:15px}
+.portrait-save-tile h3{font:normal 17px var(--serif);margin:0 0 6px}
+.portrait-save-tile p{font-size:11px;line-height:1.6;color:#779080;margin:0}
+.portrait-save-tile button{flex:none;padding:9px 13px;font-size:11px;border:1px solid #8ba48f;color:#47634d;background:#fbfefa;border-radius:6px}
+.portrait-camera-refs{display:flex;justify-content:center;gap:20px;align-items:center;margin:13px 0}
+.portrait-camera-ref{display:flex;align-items:center;flex-direction:column;gap:7px;color:#bccdc1;font-size:10px}
+.face-preview.mini{width:58px;min-width:58px;height:75px;border-color:#4d6057;background:#27372f}
+.face-preview.mini .face-placeholder{gap:3px;color:#98b29f}
+.face-preview.mini .face-placeholder svg{width:28px;height:28px}
+.face-preview.mini .face-placeholder span{font-size:8px}
+.portrait-camera-note{font-size:10px;color:#bac8be;line-height:1.8;text-align:center;letter-spacing:.02em;margin:20px 12px 7px}
+.portrait-camera-link{display:block;border:1px solid #5b7363;background:transparent;color:#d4e4d5;padding:11px;margin:8px auto 12px;border-radius:6px;font-size:11px}
+@media(max-width:355px){.portrait-content{gap:10px}.face-preview{width:112px;min-width:112px;height:146px}.portrait-card{padding:14px 12px}}
