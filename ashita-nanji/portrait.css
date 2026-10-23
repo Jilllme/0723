@@ -68,3 +68,22 @@
 .film-camera-ids-row small{display:block;color:#93aa9a;font-size:9px;margin-top:4px}
 @media(max-width:360px){.film-person-stage{width:96%;padding:11px}.film-person-paper b{font-size:14px}.film-person-paper span{font-size:7px}.film-album-person-photo{height:121px}}
 @media(prefers-reduced-motion:reduce){.film-person-picture .photo-person-image{transition:none}}
+
+.photo-person-trigger{border:0;padding:0;margin:0;border-radius:50%;background:transparent;display:inline-flex;align-items:center;justify-content:center;min-height:36px;min-width:36px;cursor:pointer}
+.photo-person-trigger .photo-person-avatar{width:33px;height:33px;min-width:33px;box-shadow:0 1px 6px #2e42351c}
+.film-detail-shade{z-index:16;backdrop-filter:blur(8px)}
+.film-detail-dialog{max-width:365px;background:#f8f8f2;padding:15px;border-radius:9px}
+.film-detail-header{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:9px;letter-spacing:.18em;color:#758b7d;margin:0 0 13px}
+.film-detail-header button{border:0;background:transparent;color:#68816d;font-size:16px;padding:8px}
+.film-detail-photo{border:0;position:relative;overflow:hidden;display:block;width:100%;height:min(53dvh,430px);background:#e1e9de;border-radius:3px;padding:0}
+.film-detail-photo .photo-person-image{display:block;width:100%;height:100%;object-fit:cover}
+.film-detail-photo .portrait-empty-icon{height:100%}
+.film-detail-back{height:100%;padding:32px 25px;background:repeating-linear-gradient(#f7f8f2,#f7f8f2 31px,#dfe8df 32px);text-align:left}
+.film-detail-back small{letter-spacing:.2em;color:#93a493;font-size:9px}
+.film-detail-back h3{font:normal 26px var(--serif);margin:24px 0 17px}
+.film-detail-back p{font:14px/2 var(--serif);white-space:pre-wrap;color:#4f6956;overflow-y:auto;max-height:65%}
+.film-detail-footer{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:12px 2px}
+.film-detail-footer h3{font:normal 20px var(--serif);color:#394d40;margin:0}
+.film-detail-footer p{color:#91a194;font-size:10px;margin:5px 0}
+.film-detail-footer button{flex:0 0 auto}
+.film-detail-note{font-size:9px;line-height:1.7;color:#9baa9d;margin:10px 3px 0}
