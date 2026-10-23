@@ -54,6 +54,11 @@ function render(s,e,onboarding=false){
  out+='<div class="film-editor-end"><p>人物照片只保存在当前浏览器。可以在旅行档案导出存档备份；导出的 JSON 也会包含照片。上传你有权使用的图片即可。</p><button class="primary" data-act="'+(onboarding?"portrait-done":"portrait-back")+'">'+(onboarding?"保存设置，领取登机牌 →":"返回游戏 →")+'</button>'+(onboarding?'<button class="ghost" data-act="portrait-done">先跳过，不上传照片</button>':"")+'</div></div>';
  return out;
 }
+function detail(s,e,role,flipped){
+ const key=role==="zhangji"?"zhangji":"heroine",r=record(s,key),name=key==="heroine"?s.name||"旅行者":"张极";
+ return '<div class="modal film-detail-shade"><div class="modal-card film-detail-dialog"><div class="film-detail-header"><span>PEOPLE IN THE STORY / 2026</span><button data-act="close-person-preview" aria-label="关闭人物照片">✕</button></div><button class="film-detail-photo" data-act="person-preview-flip" title="点击翻面">'+(flipped?'<div class="film-detail-back"><small>BACK OF THE PHOTO</small><h3>'+e(name)+'</h3><p>'+e(r.notes||"尚未留下文字。")+'</p></div>':contentImg(s,key,e))+'</button><div class="film-detail-footer"><div><h3>'+e(name)+'</h3><p>'+(flipped?"点击照片翻回正面":"轻触照片可以翻到背面")+'</p></div><button class="mini-btn" data-act="open-portraits" data-role="'+key+'">管理照片 ↗</button></div><p class="film-detail-note">人物参考照片由玩家提供，不代表剧情已经拍摄了这张照片。</p></div></div>';
+}
+
 function referenceStrip(s,e,photo){
  const t=String(photo?.title||""),who=/合照/.test(t)?"both":/单人|个人旅行照|第一晚的照片/.test(t)?"heroine":null;
  if(!who)return '<div class="portrait-camera-note">这是旅行场景的氛围示意照片；你可以从档案里查看人物参考照。</div>';
@@ -88,5 +93,5 @@ function handle(act,button,ctx){
  if(act==="portrait-clear"){const role=button.dataset.role;if(role==="heroine"||role==="zhangji")state.portraits[role].image=null;}
  persist();render();return true;
 }
-window.PortraitStudio={render,referenceStrip,compress,roles:ROLES,safeImage,avatarChip:mini,profile,album,ensure,handle,FILTERS};
+window.PortraitStudio={render,referenceStrip,compress,roles:ROLES,safeImage,avatarChip:mini,profile,album,detail,ensure,handle,FILTERS};
 })();
