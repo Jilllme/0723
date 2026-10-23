@@ -202,7 +202,7 @@ cond(f("meet_plan","otaru"),m("张极 · 昨晚","那后天见。")),
 cond(f("meet_plan","none"),n("手机上只有林蔓的旅行叮嘱。明天抵达札幌后，可以直接按自己的安排走。")),
 n("你把护照塞进随身包内侧，关掉床头灯。十二月十九日，北海道。")
 ],"CHAPTER 00 · END",[
-c("开始第一天 · 札幌","arrival",{photo:{title:"北京出发前夜",type:"winter",day:18},memory:"12月18日 · 收拾好行李，准备出发"})
+c("开始第一天 · 札幌","arrival",{memory:"12月18日 · 收拾好行李，准备出发"})
 ]);
 def("arrival",19,"傍晚","札幌 · 酒店","抵达札幌","city",[
 n("车窗上起了一层薄雾。你擦出一小块地方，外面的街道正在下雪。积雪被清到人行道两侧，便利店的灯牌亮得很早。"),
@@ -358,7 +358,7 @@ def("otaru_night",19,"夜","札幌 · 一个人的晚上","第一晚的安排","
 n("昨晚你们已经说好只约二十号的小樽。今天张极没有突然来找你。"),
 n("你重新打开札幌的收藏夹：书店、汤咖喱，还有酒店楼下的便利店。")
 ],"怎么度过第一晚？",[
-c("去书店看看日本摄影集","otaru_confirm",{photo:{title:"札幌书店",type:"books",day:19},memory:"第一晚独自去了书店"}),
+c("去书店看看日本摄影集","otaru_confirm",{memory:"第一晚独自去了书店"}),
 c("去吃林蔓推荐的汤咖喱","otaru_confirm",{item:{name:"汤咖喱打卡票",desc:"林蔓收藏的札幌餐厅"},memory:"一个人去吃林蔓推荐的汤咖喱"}),
 c("在便利店买晚饭，早点回去","otaru_confirm",{set:{rest_bonus:true},memory:"抵达第一晚选择休息"})
 ]);
@@ -375,8 +375,8 @@ n("你没有和任何人约好晚饭。手机相册里有几张抵达时拍的�
 m("林蔓","你是不是已经出去玩了？去吃好吃的！"),
 n("你换好鞋，准备出门。")
 ],"独自旅行的第一晚",[
-c("去吃饭，再沿街散步","solo_end",{photo:{title:"札幌雪夜",type:"cityNight",day:19},memory:"第一晚独自吃饭、散步"}),
-c("逛书店和杂货店","solo_end",{photo:{title:"札幌书店",type:"books",day:19},memory:"第一晚逛书店"}),
+c("去吃饭，再沿街散步","solo_end",{memory:"第一晚独自吃饭、散步"}),
+c("逛书店和杂货店","solo_end",{memory:"第一晚逛书店"}),
 c("买好晚饭，早些休息","solo_end",{set:{rest_bonus:true},item:{name:"便利店饭团",desc:"独自旅行的第一份晚饭"}})
 ]);
 def("solo_end",19,"夜","札幌 · 房间","明天想去哪儿？","night",[
@@ -452,14 +452,14 @@ d("“要不要站近一点？刚才看着像碰巧路过的。”"),
 n("帮忙拍照的游客仍然在等，你可以决定是否重新拍。")
 ],"合照距离",[
 c("稍微站近一些，再拍一张","north_choice",{photo:{title:"小樽运河 · 合照",type:"sea",day:20},set:{photo_distance:"near"}}),
-c("这样就挺好，保留原来的照片","north_choice",{photo:{title:"小樽运河 · 第一张合照",type:"sea",day:20},set:{photo_distance:"normal"}}),
+c("这样就挺好，保留原来的照片","north_choice",{photo:{title:"小樽运河 · 第一张合照",type:"sea",day:20,alreadyTaken:true},set:{photo_distance:"normal"}}),
 c("还是各自拍吧","north_choice",{set:{photo_distance:"none"}})
 ]);
 def("north_choice",20,"下午","小樽 · 运河","还往前吗？","sea",[
 n("游客渐渐少了一些。张极把围巾往上拉了拉。"),
 d("“前面还有一段北运河，人应该少点。不过得再走一会儿。”\n“你想去吗？”")
 ],"下午剩下的时间",[
-c("去北运河看看","north_canal",{photo:{title:"北运河 · 冬日旧仓库",type:"winter",day:20}}),
+c("去北运河看看","north_canal"),
 c("太冷了，找家咖啡店","north_cafe",{item:{name:"小樽咖啡店小票",desc:"运河附近 · 热饮"}}),
 c("今天已经逛得够多了，回札幌","return_train")
 ]);
@@ -470,7 +470,8 @@ d("“这个角度比刚才好。”\n“你还拍到鸟了。”\n“主要还�
 n("他自己先笑了。走到下一座桥附近，张极问起你后半程的行程。"),
 d("“你明天是不是要去洞爷湖？”\n“嗯，住两个晚上。”\n“我之前也在看那边，本来想往南走走。”")
 ],"聊聊后面的安排",[
-c("听他怎么说","invite_continue")
+c("先拍一张北运河，再聊后面的安排","invite_continue",{photo:{title:"北运河 · 冬日旧仓库",type:"winter",day:20}}),
+c("不拍照，听他接着说","invite_continue")
 ]);
 def("north_cafe",20,"下午","小樽 · 咖啡店","窗边的热饮","cafe",[
 n("咖啡店靠窗还有一张双人桌。张极点了咖啡，你自己选了热饮。"),
@@ -555,7 +556,7 @@ p("刚到。"),
 n("堺町通已经热闹起来，你先打开地图，确认想去的几个地方。")
 ],"第一站想去哪儿？",[
 c("音乐盒堂，试听不同的旋律","solo_musicbox",{set:{solo_activity:"musicbox"}}),
-c("玻璃小店，看看手工杯子","solo_afternoon",{set:{solo_activity:"glass"},photo:{title:"玻璃店橱窗",type:"books",day:20}}),
+c("玻璃小店，看看手工杯子","solo_afternoon",{set:{solo_activity:"glass"}}),
 c("沿着街道走走，拍雪和房子","solo_afternoon",{set:{solo_activity:"photowalk"},photo:{title:"小樽街边",type:"streets",day:20}})
 ]);
 def("solo_musicbox",20,"上午","小樽 · 音乐盒堂","挑一首自己喜欢的","books",[
@@ -614,7 +615,7 @@ cond(joint,m("张极","我查好明天的交通了。你原来的酒店不用改
 cond(solo,n("你确认了自己的交通和酒店。今天没有和张极约定同行的情况下，明天依然可以独立前往洞爷湖。")),
 n("你把充电器接上，把第二天要穿的外套放在椅背上。")
 ],"CHAPTER 02 · END",[
-c("出发前往洞爷湖","toya_begin",{photo:{title:"小樽或札幌 · 旅行第二天",type:"winter",day:20}})
+c("出发前往洞爷湖","toya_begin")
 ]);
 def("toya_begin",21,"早上","札幌 · 退房","你可以直接告诉我","winter",[
 n("昨天买的明信片差点落在桌上。你检查了抽屉，把充电器拔下来，将房卡放进口袋。"),
@@ -658,7 +659,8 @@ p("到了，刚放好东西。"),
 m("林蔓","有照片吗！"),
 n("你走到窗边，抬起手机。")
 ],"第一天下午",[
-c("先到湖边走一小段","toya_end",{photo:{title:"洞爷湖 · 第一次看见湖",type:"lake",day:21},memory:"独自抵达后去湖边散步"}),
+c("到湖边走一小段，拍张照片","toya_end",{photo:{title:"洞爷湖 · 第一次看见湖",type:"lake",day:21},memory:"独自抵达后去湖边散步"}),
+c("到湖边走走，但不拍照","toya_end",{memory:"独自到湖边散步，没有拍照"}),
 c("泡杯热茶，先在房间休息","toya_end",{set:{day3_rest:true},memory:"到洞爷湖后选择休息"}),
 c("在旅馆附近找吃的","toya_end",{item:{name:"洞爷湖餐饮记录",desc:"抵达日的热餐"},memory:"独自到旅馆附近找了晚饭"})
 ]);
@@ -738,7 +740,7 @@ function render(){if(!state.started){root.innerHTML='<div class="app">'+renderCo
 function storeSnapshot(){state.history.push({current:state.current,flags:JSON.parse(JSON.stringify(state.flags)),photos:state.photos.slice(),items:state.items.slice(),journal:state.journal.slice(),choices:state.choices.slice(),budget:state.budget});if(state.history.length>180)state.history.shift();}
 function applyFX(fx){if(!fx)return;if(fx.set)Object.assign(state.flags,fx.set);if(fx.item&&!state.items.some(x=>x.name===fx.item.name&&x.desc===fx.item.desc)){if(fx.item.price){if(state.budget<fx.item.price)return;state.budget-=fx.item.price;}state.items.push(fx.item);}if(fx.photo&&!state.photos.some(x=>x.title===fx.photo.title))state.photos.push(fx.photo);if(fx.memory)state.journal.push(fx.memory);}
 function choose(index,opts={}){const s=currentScene(),option=s.choices[index];if(!option||option.when&&!option.when(state))return;
-if(!opts.finishPhoto&&option.fx?.photo){state.pendingPhoto={scene:s.id,index,frame:0,taken:false};persist();render();scrollTopMain();return;}
+if(!opts.finishPhoto&&option.fx?.photo&&!option.fx.photo.alreadyTaken){state.pendingPhoto={scene:s.id,index,frame:0,taken:false};persist();render();scrollTopMain();return;}
 const fx=window.TravelUX.prepareFx(state,s,index,opts,option.fx);if(fx===null){toast("纪念品试玩预算不足");return;}
 if(opts.finishPhoto)state.pendingPhoto=null;
 storeSnapshot();applyFX(fx);state.choices.push({scene:s.id,text:option.text,date:"12月"+s.day+"日"});if(!fx?.memory)state.journal.push("12月"+s.day+"日 · "+option.text);
