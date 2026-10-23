@@ -12,19 +12,12 @@ function boarding(s,e){
 return '<div class="boarding-page"><div class="boarding-background"></div><div class="boarding-top"><span>DEPARTURE · 北海道</span><span>BOARDING 01 / 07</span></div><div class="boarding-inner"><div class="board-head">有一张机票，<br>上面写着你的名字。</div><p class="board-blurb">每次出发都有不同的故事。<br>把登机牌向右滑动，进入第一章。</p><div class="boarding-ticket" data-swipe="boarding" aria-label="向右滑动登机牌"><div class="ticket-title"><span>HOKKAIDO / WINTER</span><span>✈ 0723</span></div><div class="ticket-route"><div>PEK<small>BEIJING</small></div><div class="ticket-flight">──────── ✈ ────────</div><div>CTS<small>JAPAN</small></div></div><div class="ticket-fields"><span>TRAVELER<b>'+e(s.name)+'</b></span><span>DEPARTURE<b>DEC 19</b></span><span>TRIP<b>7 DAYS</b></span></div><div class="ticket-foot">BOARDING PASS · 19—25 DEC <span>NO. 0001</span></div></div><div class="swipe-caption">　<span>→</span> 向右滑动票面登机</div><button class="primary light" data-act="board">登机 · 开始故事　↗</button><small class="board-footer">触控不便也可以点击按钮 · 虚构旅行票</small></div></div>';
 }
 function view(s,state,renderBeat){
-const active=s.beats.filter(b=>!b.when||b.when(state));
-const all=active.filter(b=>b.t==="m").length;
-const readCount=Math.max(0,Math.min(all,Number(state.chatProgress?.[s.id]||0)));
-let seen=0,content=[],hasUnread=false;
-for(const b of active){
-  if(b.t==="m"){if(seen>=readCount){hasUnread=true;break;}seen++;}
-  content.push(b);
+  // Original narrative WeChat mode: render all scripted bubbles immediately.
+  // Retain old chatProgress in saves, but don't use it to gate reading.
+  const active=s.beats.filter(b=>!b.when||b.when(state));
+  return {html:active.map((b,i)=>renderBeat(b,i)).join(""),done:true};
 }
-const remaining=all-readCount;
-let html=content.map((b,i)=>renderBeat(b,i)).join("");
-if(hasUnread)html+='<div class="unread-message"><div class="wechat-symbol">微</div><span><b>微信 · 聊天消息</b><small>按顺序查看固定对白 · '+readCount+' / '+all+'</small></span></div><div class="message-button-group"><button class="primary" data-act="next-message">点开下一条消息 →</button>'+(remaining>2?'<button class="ghost" data-act="all-messages">直接展开全部</button>':"")+'</div>';
-return {html,done:!hasUnread};
-}
+
 function shop(s,e){
 const a=item(s),solo=s.current==="solo_musicbox",pending=s.shopStep==="confirm";
 return '<div class="divider"></div><div class="label-caps">MUSIC BOX SHOP · OTARU</div><h2 class="shop-title">试听与挑选</h2><p class="tiny">轻触 ▶ 试听游戏原创合成短旋律。商品和金额为虚构的玩法示例。</p><div class="shop-wallet"><span>纪念品试玩预算</span><b>¥'+Number(s.budget??10000).toLocaleString()+'</b></div><div class="shop-grid">'+SHOP.map((b,i)=>'<button class="shop-item '+(i===Number(s.shopPick||0)?"on":"")+'" data-act="shop-select" data-index="'+i+'"><span class="shop-mark">♫</span><span class="shop-item-info"><b>'+e(b.name)+'</b><small>'+e(b.detail)+'</small></span><span class="shop-price">¥'+b.price.toLocaleString()+'</span></button>').join("")+'</div><div class="shop-listen"><div class="listen-disc">♫</div><div class="listen-copy"><b>'+e(a.name)+'</b><small>原创八音旋律 · 约 3 秒</small></div><button class="listen-button" data-act="shop-listen" aria-label="试听音乐盒旋律">▶</button></div>'+(pending?'<div class="shop-purchase"><b>要把 '+e(a.name)+' 带回去吗？</b><p>确认后扣除 ¥'+a.price.toLocaleString()+' 虚拟纪念品预算，并收进旅行背包。</p><div class="clickrow"><button class="primary" data-act="shop-confirm">确认购买</button><button class="ghost" data-act="shop-cancel">再看看</button></div></div>':'<div class="options"><button class="option" data-act="shop-buy"><span class="index">01</span><span><span class="option-main">购买这只音乐盒</span><span class="option-note">¥'+a.price.toLocaleString()+' · 记入旅行背包</span></span><span class="option-arrow">↗</span></button><button class="option" data-act="shop-note"><span class="index">02</span><span class="option-main">只记下这段旋律，不购买</span><span class="option-arrow">↗</span></button><button class="option" data-act="shop-other"><span class="index">03</span><span class="option-main">'+(solo?"听完离开，不买纪念品":"问张极为什么喜欢那首")+'</span><span class="option-arrow">↗</span></button></div>')+'<p class="shop-note">本商店没有实际付款功能。其他章节的物品暂未采用这套预算。</p>';
