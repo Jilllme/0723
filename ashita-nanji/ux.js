@@ -52,7 +52,7 @@ root.addEventListener("pointerdown",ev=>{if(ev.target.closest("[data-swipe='boar
 root.addEventListener("pointerup",ev=>{if(gestureX===null)return;const diff=ev.clientX-gestureX;gestureX=null;if(diff>65&&!context.state.boarded){context.state.boarded=true;context.state.journal.push("滑动登机牌，旅程正式开始");context.persist();context.render();context.scrollTopMain();}});
 }
 function action(act,button,ctx){
-const s=ctx.state,finish=()=>{ctx.persist();ctx.render();};
+const s=ctx.state,finish=()=>{const prev=document.getElementById("main-screen"),y=prev?prev.scrollTop:0;ctx.persist();ctx.render();const next=document.getElementById("main-screen");if(next)next.scrollTop=y;};
 if(act==="board"){s.boarded=true;s.journal.push("拿到了写着自己名字的旅行票");finish();return true;}
 if(act==="next-message"||act==="all-messages"){const beats=ctx.currentScene().beats.filter(b=>!b.when||b.when(s)),max=beats.filter(b=>b.t==="m").length;s.chatProgress[ctx.currentScene().id]=act==="all-messages"?max:Math.min(max,(s.chatProgress[ctx.currentScene().id]||0)+1);finish();const el=document.getElementById("main-screen");if(el)el.scrollTop=el.scrollHeight;return true;}
 if(act==="shop-select"){s.shopPick=Number(button.dataset.index);s.shopStep="browse";finish();return true;}
