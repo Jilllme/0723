@@ -226,7 +226,19 @@ n("你点开他发的地图。一家是你和林蔓收藏的汤咖喱店，一�
 ],"今晚还能出去吗？",[
 c("按原计划见面","dinner_meet",{set:{dinner_status:"confirmed"}}),
 c("晚半小时，让自己休息一下","dinner_meet",{set:{dinner_status:"delayed"}}),
-c("今天太累，改成各自吃饭","solo_night",{set:{dinner_status:"cancelled"}},"明天的约定不会因此自动取消")
+c("今天太累，改成各自吃饭","dinner_cancel",{set:{dinner_status:"cancelled"}},"明天的约定不会因此自动取消")
+]);
+def("dinner_cancel",19,"傍晚","札幌 · 微信","今晚先休息","night",[
+p("今天有点累，可能不太想出门了。"),
+m("张极","那今天就算了。刚到确实挺折腾的。"),
+cond(f("meet_plan","both"),m("张极","明天小樽的事还照旧吗？")),
+cond(f("meet_plan","trial"),m("张极","那今天你好好休息，后面到了再说。")),
+n("你收起手机，准备在酒店周围解决晚饭。")
+],"明天怎么办？",[
+c("小樽还是照约定一起去","otaru_night",{set:{otaru_plan:"together"}},"明天十点半左右集合",f("meet_plan","both")),
+c("明天想晚一点再出发","otaru_night",{set:{otaru_plan:"late"}},"改到十一点半",f("meet_plan","both")),
+c("小樽也改成独自探索","solo_night",{set:{otaru_plan:"separate"}},"明确取消同行约定",f("meet_plan","both")),
+c("今晚休息，明天再决定","solo_night",{set:{otaru_plan:"separate"}},"此前只约定过今晚吃饭",f("meet_plan","trial"))
 ]);
 def("dinner_meet",19,"入夜","札幌 · 酒店门口","第一次在旅行中见面","cityNight",[
 n("张极说自己已经到了一楼。你乘电梯下去，在落地窗旁看见了他。"),
