@@ -21,3 +21,5 @@
 @media(max-width:370px){.avatar-stage{width:78%;max-width:250px}.avatar-studio{padding:21px 17px}.avatar-roles button{font-size:11px;padding:11px 6px}.avatar-profile{gap:8px}.avatar-profile-figure{width:61px;min-width:61px;height:73px}}
 @media(max-height:730px){.avatar-stage{max-width:238px}}
 @media(prefers-reduced-motion:reduce){.avatar-choice,.avatar-roles button{transition:none}}
+
+.photo-portrait-chip{position:absolute;right:7px;top:7px;z-index:2;padding:2px;background:#f7f8f0e9;border:1px solid #ffffff80;border-radius:8px;box-shadow:0 3px 8px #0b1d1933}.photo-portrait-chip .avatar-chip{width:29px;height:31px;min-width:29px}.photo-portrait-chip .avatar-chip svg{width:29px;height:35px;transform:translateY(4px)}
